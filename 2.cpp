@@ -1,6 +1,7 @@
 #include <iostream>
-
+#include <string>
 using namespace std;
+
 class node
 {
 private:
@@ -54,69 +55,44 @@ public:
         temp->next=nodetodelete->next;
         delete nodetodelete;
     }
+    
    }
-  
-
-
-   void evenodd(){
-    node *temp=head;
-    bool flag=false;
-    int index;
+   void Palindrome(int arr[],int n){
+    node* temp=head;
+    int index=0;
     while (temp!=nullptr)
     {
+
         temp=temp->next;
         index++;
     }
-   temp=head;
-int count=0;
-int countodd;
-  while (temp!=nullptr)
-  {
-      if (temp->data%2==0)
-      {
-        
-        count++;
-        
-      }
-      
-      else{
-          
-          countodd++;
-        }
+    temp=head;
+    for (int i = 0; i < index; i++)
+    {
+        arr[i]=temp->data;
         temp=temp->next;
     }
-  if (count==index)
-  {
-      cout<<"whole list even";
-}
-  else if (countodd==index)
-  {
-    cout<<"whole list odd";
-  }
-  else{
-    flag=true;
-  }
- 
-  if (flag=true)
-  {
-    temp = head;
-    
-    while (temp!=nullptr)
+    for (int i = 0; i < index/2; i++)
     {
-        if (temp->next->data %2==0)
+        for (int j =index ; j > index-i-1; j--)
         {
-            node *newnode=temp;
+            if (arr[i]!=arr[j])
+            {
+                cout<<"palindrome not true";
+                break;
+            
+            }
+            else
+            cout<<"palindrome checked for "<<arr[i];
+
+
         }
         
     }
     
-  }
-  
-   
-        
     
-     
-}  
+   }
 };
 
 
+ 
