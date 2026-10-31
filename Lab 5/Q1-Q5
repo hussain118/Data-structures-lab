@@ -1,0 +1,220 @@
+#include<iostream>
+using namespace std;
+class Stack {
+    int arr[100];
+    int topIndex;
+public:
+    Stack() {
+        topIndex = -1;
+    }
+    bool isEmpty() {
+        return topIndex == -1;
+    }
+    void push(int value) {
+        arr[++topIndex] = value;
+    }
+    int pop() {
+        return arr[topIndex--];
+    }
+};
+class Queue {
+    int arr[100];
+    int frontIndex;
+    int rearIndex;
+public:
+    Queue() {
+        frontIndex = 0;
+        rearIndex = -1;
+    }
+    void enqueue(int value) {
+        arr[++rearIndex] = value;
+    }
+
+    int dequeue() {
+        return arr[frontIndex++];
+    }
+    int size() {
+        return rearIndex - frontIndex + 1;
+    }
+    void display() {
+        for (int i = frontIndex; i &lt;= rearIndex; i++)
+            cout &lt;&lt; arr[i] &lt;&lt; &quot; &quot;;
+        cout &lt;&lt; endl;
+    }
+};
+void reverseFirstK(Queue &amp;q, int k) {
+    if (k &lt;= 0 || k &gt; q.size())
+        return;
+    Stack s;
+    for (int i = 0; i &lt; k; i++)
+        s.push(q.dequeue());
+    int remaining = q.size();
+    for (int i = 0; i &lt; remaining; i++)
+        q.enqueue(q.dequeue());
+    for (int i = 0; i &lt; k; i++)
+        q.enqueue(s.pop());
+    for (int i = 0; i &lt; q.size() - k; i++)
+        q.enqueue(q.dequeue());
+}
+int main() {
+    Queue q;
+    q.enqueue(1);
+    q.enqueue(2);
+    q.enqueue(3);
+    q.enqueue(4);
+    q.enqueue(5);
+
+    q.enqueue(6);
+    q.enqueue(7);
+    cout &lt;&lt; &quot;Before: &quot;;
+    q.display();
+    reverseFirstK(q, 3);
+    cout &lt;&lt; &quot;After: &quot;;
+    q.display();
+    return 0;
+}
+
+
+
+Q2
+Output
+
+using namespace std;
+class Stack {
+    string arr[100];
+    int topIndex;
+public:
+    Stack() {
+        topIndex = -1;
+    }
+    bool isEmpty() {
+        return topIndex == -1;
+    }
+    void push(string value) {
+
+        arr[++topIndex] = value;
+    }
+    string pop() {
+        if (isEmpty())
+            return &quot;&quot;;
+        return arr[topIndex--];
+    }
+    void clear() {
+        topIndex = -1;
+    }
+};
+class TextEditor {
+    string document;
+    Stack undoStack;
+    Stack redoStack;
+public:
+    void type(string word) {
+        if (document.length() &gt; 0)
+            document += &quot; &quot;;
+        document += word;
+        undoStack.push(word);
+        redoStack.clear();
+        print();
+    }
+    void undo() {
+        if (!undoStack.isEmpty()) {
+            string word = undoStack.pop();
+            int pos = document.length() - word.length();
+            if (pos &gt; 0 &amp;&amp; document[pos - 1] == &#39; &#39;)
+                pos--;
+            document = document.substr(0, pos);
+            redoStack.push(word);
+        }
+        print();
+
+    }
+    void redo() {
+        if (!redoStack.isEmpty()) {
+            string word = redoStack.pop();
+            if (document.length() &gt; 0)
+                document += &quot; &quot;;
+            document += word;
+            undoStack.push(word);
+        }
+        print();
+    }
+    void print() {
+        cout &lt;&lt; &quot;Document: &quot; &lt;&lt; document &lt;&lt; endl;
+    }
+};
+int main() {
+    TextEditor editor;
+    editor.type(&quot;Hello&quot;);
+    editor.type(&quot;World&quot;);
+    editor.undo();
+    editor.redo();
+    editor.undo();
+    editor.type(&quot;There&quot;);
+    editor.redo();
+    return 0;
+}
+
+
+
+using namespace std;
+class Stack {
+    int arr[8];
+    int topIndex;
+public:
+    Stack() {
+        topIndex = -1;
+    }
+    bool isEmpty() {
+        return topIndex == -1;
+    }
+    bool isFull() {
+        return topIndex == 7;
+    }
+    void push(int value) {
+        if (!isFull()) {
+            arr[++topIndex] = value;
+            cout &lt;&lt; &quot;Current top: &quot; &lt;&lt; arr[topIndex] &lt;&lt; endl;
+        }
+    }
+    void undo() {
+        if (isEmpty()) {
+
+            cout &lt;&lt; &quot;Undo requested: Stack is empty&quot; &lt;&lt; endl;
+        } else {
+            topIndex--;
+            if (isEmpty())
+                cout &lt;&lt; &quot;Current top: Stack is empty&quot; &lt;&lt; endl;
+            else
+                cout &lt;&lt; &quot;Current top: &quot; &lt;&lt; arr[topIndex] &lt;&lt; endl;
+        }
+    }
+    void displayTop() {
+        if (isEmpty())
+            cout &lt;&lt; &quot;Current top: Stack is empty&quot; &lt;&lt; endl;
+        else
+            cout &lt;&lt; &quot;Current top: &quot; &lt;&lt; arr[topIndex] &lt;&lt; endl;
+    }
+    void displayStack() {
+        cout &lt;&lt; &quot;Operations from top to bottom: &quot;;
+        for (int i = topIndex; i &gt;= 0; i--)
+            cout &lt;&lt; arr[i] &lt;&lt; &quot; &quot;;
+        cout &lt;&lt; endl;
+    }
+};
+int main() {
+    Stack s;
+    s.push(12);
+    s.push(25);
+    s.push(17);
+    s.push(31);
+    s.push(44);
+    s.push(19);
+    s.undo();
+    s.undo();
+    s.undo();
+    s.push(52);
+    s.undo();
+    s.undo();
+    s.displayStack();
+
+    return 0;
